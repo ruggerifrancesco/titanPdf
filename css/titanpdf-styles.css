@@ -31,20 +31,19 @@
     top: 50%;
     width: 10px;
   }
-  
- 
 }
 
 
 .titanPdfStatus-pill--success {
-    background: #b4eda0; }
+    background: #b4eda0; 
+  }
     .titanPdfStatus-pill--success:before {
       background: #6BC167; 
     }
 
 .titanPdfStatus-pill--danger {
     background: #ffd5d1; 
-}
-.titanPdfStatus-pill--danger:before {
-  background: #ff4436; 
-}
+  }
+    .titanPdfStatus-pill--danger:before {
+      background: #ff4436; 
+    }

@@ -1,6 +1,9 @@
 "Language: it_IT\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 
+msgid "Generate a PDF based on the content of the page and/or article. From a button that is made by you or from an Elementor widget."
+msgstr "Genera un PDF in base al contenuto della pagina e/o dell'articolo. Da un pulsante creato da te o da un widget Elementor."
+
 msgid "Publish"
 msgstr "Pubblicato"
 
@@ -12,6 +15,9 @@ msgstr "Articoli"
 
 msgid "Pages"
 msgstr "Pagine"
+
+msgid "Settings"
+msgstr "Impostazioni"
 
 msgid "Status"
 msgstr "Stato"

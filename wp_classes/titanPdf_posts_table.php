@@ -55,25 +55,24 @@ class TitanPDF_Posts_List_Table extends WP_List_Table {
     // Render the title column with row actions
     public function column_title($item) {
         $actions = array(
-            'edit' => sprintf(
+            'preview_pdf' => sprintf(
+                '<a href="#" class="preview-pdf" data-post-id="%d" data-post-title="%s">%s</a>',
+                $item->ID,  // Accessing as object: $item->ID
+                esc_attr($item->post_title),  // Accessing as object: $item->post_title
+                __('Preview PDF', 'your-text-domain')
+            ),
+            /*'edit' => sprintf(
                 '<a href="%s">%s</a>',
                 '#',
                 __('Edit template', 'your-text-domain')
             ),
-            'preview_pdf' => sprintf(
-                '<a href="%s">%s</a>',
-                // Replace with the URL for your custom action
-                '#',
-                __('Preview PDF', 'your-text-domain')
-            ),
             'reset_template' => sprintf(
                 '<a href="%s" style="color: red !important;">%s</a>',
-                // Replace with the URL for your custom action
                 '#',
                 __('Reset template', 'your-text-domain')
-            ),
+            ),*/
         );
-
+        // TO DO - Show only the preview PDF as always
         return sprintf('%1$s %2$s %3$s', '<strong>' . get_the_title($item->ID) . '</strong>', '' ,  $this->row_actions($actions));
     }
 
