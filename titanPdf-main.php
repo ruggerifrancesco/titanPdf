@@ -75,7 +75,7 @@ function titanPdf_generator_settings() {
         add_action('admin_enqueue_scripts', 'enqueue_plugin_styles');
 
 
-        
+
 // Initialize the dashboard and functionalities
 function titanPdf_generator_dashboard() {
     require_once( __DIR__ . '/wp_classes/titanPdf_posts_table.php' );
@@ -164,7 +164,7 @@ function custom_generate_pdf() {
 
 function register_new_widgets( $widgets_manager ) {
 
-	require_once( __DIR__ . '/widgets/titanpdf-gen-button.php' );
+	require_once( __DIR__ . '/elementor_widgets/titanpdf-gen-button.php' );
 
 	$widgets_manager->register( new \TitanPDF_Button_Widget() );
 }
@@ -173,10 +173,10 @@ add_action( 'elementor/widgets/register', 'register_new_widgets' );
 
 function enqueue_elementor_widget_scripts() {
     // Enqueue styles
-    wp_enqueue_style('custom-pdf-widget-styles', plugin_dir_url(__FILE__) . 'widgets/custom-pdf-widget.css');
+    wp_enqueue_style('custom-pdf-widget-styles', plugin_dir_url(__FILE__) . 'elementor_widgets/custom-pdf-widget.css');
 
     // Enqueue scripts
-    wp_enqueue_script('custom-pdf-widget-script', plugin_dir_url(__FILE__) . 'widgets/custom-pdf-widget.js', ['jquery'], null, true);
+    wp_enqueue_script('custom-pdf-widget-script', plugin_dir_url(__FILE__) . 'elementor_widgets/custom-pdf-widget.js', ['jquery'], null, true);
 }
 
 add_action('elementor/frontend/after_enqueue_styles', 'enqueue_elementor_widget_scripts');
