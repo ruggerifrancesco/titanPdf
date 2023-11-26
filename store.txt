@@ -1,0 +1,280 @@
+<?php
+
+function custom_pdf_generator_settings_page() {
+    // Save the general ID when the form is submitted
+    if (isset($_POST['submit_general_id'])) {
+        $general_id = sanitize_text_field($_POST['general_id']);
+        update_option('custom_pdf_general_id', $general_id);
+    }
+
+    // Retrieve the general ID
+    $general_id = get_option('custom_pdf_general_id', '');
+
+    // Display the form to set the general ID
+    echo '<h2>Set General ID</h2>';
+    echo '<form method="post">';
+    echo '<label for="general_id">General ID:</label>';
+    echo '<input type="text" name="general_id" value="' . esc_attr($general_id) . '" />';
+    echo '<input type="submit" name="submit_general_id" value="Save" />';
+    echo '</form>';
+
+    // Display the general ID
+    echo '<p>General ID: ' . esc_html($general_id) . '</p>';
+
+    echo '<h2>Manage Articles</h2>';
+
+    // Retrieve all articles, including drafts
+    $args = array(
+        'post_type' => 'post',
+        'posts_per_page' => -1,
+        'post_status' => array('publish', 'draft'),
+    );
+    $articles = get_posts($args);
+
+    // Display articles
+    echo '<ul>';
+    foreach ($articles as $article) {
+        $status = get_post_status($article->ID);
+        $color = ($status === 'publish') ? 'green' : 'red';
+
+        echo '<li style="color: ' . $color . ';">';
+        echo '<strong>' . get_the_title($article->ID) . '</strong>';
+        echo '<br />Status: ' . $status;
+
+        // Check if the general ID is set in the article content
+        if (!empty($general_id) && strpos(get_post_field('post_content', $article->ID), $general_id) !== false) {
+            echo '<br />ID detected';
+        } else {
+            echo '<br />No ID detected';
+        }
+
+        echo '</li>';
+    }
+    echo '</ul>';
+}
+
+
+function custom_pdf_generator_js() {
+    $general_id = get_option('custom_pdf_general_id', '');
+    $postid = get_the_ID();
+    $postTitle = get_the_title();
+    $postContent = get_the_content();
+
+    if (!empty($general_id)) {
+        echo '<script>
+            document.addEventListener("DOMContentLoaded", function() {
+                var button = document.getElementById("' . esc_js($general_id) . '");
+                
+                if (button) {
+                    button.addEventListener("click", function() {
+                    
+                        var postID = ' . esc_js($postid) . ';
+                        var postTitle = ' . json_encode($postTitle) . ';
+                        var postContent = ' . json_encode($postContent) . ';
+
+                        // console.log("Button Clicked");
+                        // console.log(postID);
+                        // console.log(postTitle);
+                        // console.log(postContent);
+
+                        // Check if the post ID is available
+                        if (postID && postTitle) {
+                            // Create FormData object and append data
+                            var formData = new FormData();
+                            formData.append("action", "generate_pdf");
+                            formData.append("post_id", postID);
+                            formData.append("post_title", postTitle);
+                            formData.append("post_content", postContent);
+
+                            // Send AJAX request to generate PDF
+                            var xhr = new XMLHttpRequest();
+                            xhr.onreadystatechange = function() {
+                                if (xhr.readyState === 4) {
+                                    if (xhr.status === 200) {
+                                        // Open a new window/tab to display the PDF preview
+                                        window.open(xhr.responseText, "_blank");
+                                    } else {
+                                        console.error("Error generating PDF");
+                                    }
+                                }
+                            };
+                            xhr.open("POST", "' . admin_url('admin-ajax.php') . '", true);
+                            xhr.send(formData);
+                        } else {
+                            console.error("Error in passing variables. Check and debug");
+                        }
+                    });
+                }
+            });
+        </script>';
+    }
+}
+
+add_action('wp_footer', 'custom_pdf_generator_js');
+
+
+// Add AJAX action for PDF generation
+add_action('wp_ajax_generate_pdf', 'custom_generate_pdf');
+add_action('wp_ajax_nopriv_generate_pdf', 'custom_generate_pdf');
+
+function custom_generate_pdf() {
+    $post_id = isset($_POST['post_id']) ? intval($_POST['post_id']) : 0;
+    $post_title = isset($_POST['post_title']) ? sanitize_title($_POST['post_title']) : 'bando_';
+    $post_content = isset($_POST['post_content']) ? wp_kses_post($_POST['post_content']) : 'Error in retrieving content';
+
+	// Remove all images from response
+    $post_content = preg_replace('/<img(.*?)>/i', '', $post_content);
+
+	// Remove specific HTML content from $post_content 'SINTESI BANDO'
+    $post_content = preg_replace('/<h3>SINTESI DEL BANDO<\/h3>.*?<\/ol>/s', '', $post_content);
+    $post_content = preg_replace('/<h5>INFORMATIVA E DOCUMENTI<\/h5>.*$/s', '', $post_content);
+
+    // Add Wrapper for specified section with conditional styling based on the content within <h6> tags
+    $post_content = preg_replace_callback('/<h6>(.*?)<\/h6>(.*?<\/p>.*?<\/p>)/s', function($matches) {
+        $status = strtoupper(trim($matches[1])); // Convert to uppercase and remove leading/trailing spaces
+
+        // Add Wrapper for specified section with conditional styling
+        if ($status === 'BANDO SCADUTO') {
+            return '<div class="bando-status" style="background-color: #FFCCCB;"><table style="border-spacing: 15px 10px; padding: 7px 0;"><tr><td><h6 style="color: #C5283D">' . $matches[1] . '</h6>' . $matches[2] . '</td></tr></table></div>';
+        } elseif ($status === 'BANDO IN APERTURA') {
+            return '<div class="bando-status" style="background-color: #fffec8;"><table style="border-spacing: 15px 10px; padding: 7px 0;"><tr><td><h6 style="color: #FFBC42">' . $matches[1] . '</h6>' . $matches[2] . '</td></tr></table></div>';
+        } elseif ($status === 'BANDO IN CORSO') {
+            return '<div class="bando-status" style="background-color: #d3f5d3;"><table style="border-spacing: 15px 10px; padding: 7px 0;"><tr><td><h6 style="color: #3E8914">' . $matches[1] . '</h6>' . $matches[2] . '</td></tr></table></div>';
+        } else {
+            // Default styling if the status doesn't match any of the above
+            return $matches[0];
+        }
+    }, $post_content);
+
+    // Custom Log for retrieving data
+    // $log_file = plugin_dir_path(__FILE__) . 'custom_log.txt';
+    // file_put_contents($log_file, 'Received content: ' . print_r($post_content, true) . PHP_EOL, FILE_APPEND);
+
+    // If the post ID or post title is not provided or is invalid
+    if (!$post_id || !$post_title) {
+        echo '<p style="color: red;">Error: Invalid or missing post ID or post Title.</p>';
+        echo '<script>
+                setTimeout(function(){
+                    window.location.href = document.referrer;
+                }, 3000);
+              </script>';
+        wp_die();
+    }
+
+    $pdf_filename = $post_title . '_' . uniqid() . '.pdf';
+
+    // Path to the uploads directory
+	// Full path to the PDF file
+	// Include TCPDF library
+    $upload_dir = wp_upload_dir();
+	$pdf_path = $upload_dir['path'] . '/' . $pdf_filename;
+    require_once(plugin_dir_path(__FILE__) . 'tcpdf/tcpdf.php');
+
+	// Class TCPDF
+    class AdFinanza_PDF extends TCPDF {
+
+        public function __construct() {
+            parent::__construct();
+
+            $this->setPrintHeader(true);
+            $this->setPrintFooter(true);
+            $this->SetFont('helvetica', '', 10, '', true);
+            $this->SetMargins(20, 35, 20);
+            $this->AddPage();
+            $this->SetAutoPageBreak(true, 40);
+            $this->setImageScale(PDF_IMAGE_SCALE_RATIO);
+        }
+
+        public function Header() {
+            if ($this->page == 1) {
+                // Add the logo to the header
+                $logo_path = plugin_dir_path(__FILE__) . 'Header.png';
+                // $logoWidth = 100;
+                $logoHeight = 30; 
+
+                // Get image dimensions
+                list($imgWidth, $imgHeight, $type, $attr) = getimagesize($logo_path);
+
+                // Calculate the width of the page
+                $pageWidth = $this->getPageWidth();
+
+                // Calculate the scaling factor to fit the image to the page width
+                $scaleFactor = $pageWidth / $imgWidth;
+
+                // Calculate the adjusted image width and height
+                $adjustedWidth = $pageWidth;
+                $adjustedHeight = $imgHeight * $scaleFactor;
+
+                // Set the Y-coordinate to 10 (adjust as needed)
+                $yCoordinate = 0;
+
+                // Display the adjusted image
+                $this->Image($logo_path, 0, $yCoordinate, $adjustedWidth, $logoHeight);
+
+                // #Center Logo Horizontally - NOTE: THIS ONE IS ONLY FOR STAND ALONE LOGO
+                //$pageWidth = $this->getPageWidth();
+                //$xCoordinate = ($pageWidth - $logoWidth) / 2;
+                //$this->Image($logo_path, $xCoordinate, 10, $logoWidth);
+
+                // #Logo to the left - NOTE: THIS ONE IS ONLY FOR STAND ALONE LOGO
+                //$logoWidth = 100; 
+                //$leftMargin = 20;
+                //$this->Image($logo_path, $leftMargin, 10, $logoWidth);
+            }
+        }
+
+        public function Footer() {
+            // Set position at the bottom of the page (do not set 0, but only negative values)
+            $this->SetY(-38);
+            $this->SetFont('helvetica', 'I', 8);
+
+            $footer_path = plugin_dir_path(__FILE__) . 'Footer.png';
+
+            // Get image dimensions
+            list($imgWidth, $imgHeight, $type, $attr) = getimagesize($footer_path);
+
+            // Calculate the width of the page
+            $pageWidth = $this->getPageWidth();
+
+            // Calculate the scaling factor to fit the image to the page width
+            $scaleFactor = $pageWidth / $imgWidth;
+
+            // Calculate the adjusted image width and height
+            $adjustedWidth = $pageWidth;
+            $adjustedHeight = $imgHeight * $scaleFactor;
+
+            // Calculate the X-coordinate to center the image
+            $xCoordinate = 0; // Adjust if you want it to start from a different position
+
+            // Display the adjusted image
+            $this->Image($footer_path, $xCoordinate, $this->getY(), $adjustedWidth, $adjustedHeight);
+        }
+    }
+
+    $pdf = new AdFinanza_PDF();
+    $pdf->SetCreator(PDF_CREATOR);
+    $pdf->SetAuthor('Ad Sphera Group');
+
+    // Define the styling
+    $custom_style = '<style>
+        h2 { font-size: 22px; text-transform: uppercase; }
+        h3 { font-size: 19px; }
+        h5 { font-size: 16px; }
+		h6 { font-size: 16px; }
+		ul { list-style-type: disc; }
+		ol { list-style-type: decimal; }
+    </style>';
+    
+    $full_content = $custom_style . stripslashes($post_content);
+
+	$pdf->SetTopMargin(18);
+    $pdf->writeHTML($full_content);
+    $pdf->Output($pdf_path, 'F');
+
+    // URL to the PDF file
+    $pdf_url = $upload_dir['url'] . '/' . $pdf_filename;
+    echo esc_url($pdf_url);
+
+    // Make sure to exit after echoing the response
+    wp_die();
+}

@@ -1,0 +1,26 @@
+"Language: it_IT\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+
+msgid "Publish"
+msgstr "Pubblicato"
+
+msgid "Draft"
+msgstr "Bozza"
+
+msgid "Posts"
+msgstr "Articoli"
+
+msgid "Pages"
+msgstr "Pagine"
+
+msgid "Status"
+msgstr "Stato"
+
+msgid "Edit template"
+msgstr "Modifica il template"
+
+msgid "Preview PDF"
+msgstr "Anteprima PDF"
+
+msgid "Reset template"
+msgstr "Ripristina il template"
