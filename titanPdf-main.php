@@ -39,55 +39,43 @@ function titanPdf_generator_menu() {
     );
 }
 
-// Submenu page
-/*function titanPdf_generator_pluginSettings() {
-    // Parameters: parent slug, page title, menu title, capability, menu slug, callback function
-    add_submenu_page(
-        'titanPdf_generator', // The slug of the parent menu
-        'Settings',
-        'Settings',
-        'manage_options',
-        'titanPdf_generator_pluginSettings', 
-        'titanPdf_generator_pluginSettings_page_callback'
-    );
-}*/
-
 // Plugin Settings
 function titanPdf_generator_settings() {
     // No settings for now
 }
+        // Languages Settings
+        function load_plugin_text_domain() {
+            load_plugin_textdomain('your-text-domain', false, dirname(plugin_basename(__FILE__)) . '/languages/');
+        }
+        add_action('plugins_loaded', 'load_plugin_text_domain');
 
-// Languages Settings
-function load_plugin_text_domain() {
-    load_plugin_textdomain('your-text-domain', false, dirname(plugin_basename(__FILE__)) . '/languages/');
-}
-add_action('plugins_loaded', 'load_plugin_text_domain');
+        // Custom JS
+        function enqueue_plugin_script() {
+            // Enqueue jQuery
+            wp_enqueue_script('jquery');
 
-// Custom JS
-function enqueue_plugin_script() {
-    // Enqueue jQuery
-    wp_enqueue_script('jquery');
+            // Enqueue scripts
+            wp_enqueue_script('tabs-script', PLUGIN_JS_DIR . 'tabs-script.js', ['jquery'], null, true);
+            wp_enqueue_script('pdfPostPreview-script', PLUGIN_JS_DIR . 'pdfPostPreview-script.js', ['jquery'], null, true);
 
-    // Enqueue scripts
-    wp_enqueue_script('tabs-script', PLUGIN_JS_DIR . 'tabs-script.js', ['jquery'], null, true);
-    wp_enqueue_script('custom-script', PLUGIN_JS_DIR . 'custom-script.js', ['jquery'], null, true);
+            // Localize the script with new data
+            $translation_array = array(
+                'ajaxurl' => admin_url('admin-ajax.php'), // WordPress AJAX URL
+            );
+            wp_localize_script('pdfPostPreview-script', 'ajax_object', $translation_array);
+        }
 
-    // Localize the script with new data
-    $translation_array = array(
-        'ajaxurl' => admin_url('admin-ajax.php'), // WordPress AJAX URL
-    );
-    wp_localize_script('custom-script', 'ajax_object', $translation_array);
-}
+        add_action('admin_enqueue_scripts', 'enqueue_plugin_script');
 
-add_action('admin_enqueue_scripts', 'enqueue_plugin_script');
+        // Custom CSS 
+        function enqueue_plugin_styles() {
+            wp_enqueue_style('titanpdf-styles', PLUGIN_CSS_DIR . 'titanpdf-styles.css');
+        }
 
-// Custom CSS 
-function enqueue_plugin_styles() {
-    wp_enqueue_style('titanpdf-styles', PLUGIN_CSS_DIR . 'titanpdf-styles.css');
-}
+        add_action('admin_enqueue_scripts', 'enqueue_plugin_styles');
 
-add_action('admin_enqueue_scripts', 'enqueue_plugin_styles');
 
+        
 // Initialize the dashboard and functionalities
 function titanPdf_generator_dashboard() {
     require_once( __DIR__ . '/wp_classes/titanPdf_posts_table.php' );
@@ -173,19 +161,6 @@ function custom_generate_pdf() {
     // Make sure to exit after echoing the response
     wp_die();
 }
-
-
-
-// Callback function for the submenu page
-/*function titanPdf_generator_pluginSettings_page_callback() {
-    echo '<div class="wrap">';
-    echo '<h1>Submenu Page Content</h1>';
-    echo '<p>This is the content of the submenu page.</p>';
-    echo '</div>';
-}
-
-add_action('admin_init', 'titanPdf_generator_settings');*/
-
 
 function register_new_widgets( $widgets_manager ) {
 
