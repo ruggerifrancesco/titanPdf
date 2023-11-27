@@ -112,7 +112,7 @@ function titanPdf_generator_dashboard() {
 
 function register_new_widgets( $widgets_manager ) {
 
-	require_once( __DIR__ . '/widgets/titanPdf-button.php' );
+	require_once( __DIR__ . '/widgets/eButton.php' );
 
 	$widgets_manager->register( new \TitanPDF_Button_Widget() );
 }
@@ -120,8 +120,8 @@ function register_new_widgets( $widgets_manager ) {
 add_action( 'elementor/widgets/register', 'register_new_widgets' );
 
 
-// PDF Process
-add_action('wp_ajax_custom_generate_pdf', 'custom_generate_pdf');
+// PDF Process - WITH TCPDF
+/*add_action('wp_ajax_custom_generate_pdf', 'custom_generate_pdf');
 
 function custom_generate_pdf() {
     $post_id = isset($_POST['post_id']) ? intval($_POST['post_id']) : 0;
@@ -170,4 +170,4 @@ function custom_generate_pdf() {
 
     // Make sure to exit after echoing the response
     wp_die();
-}
+}*/

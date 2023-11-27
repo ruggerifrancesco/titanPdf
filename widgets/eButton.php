@@ -35,7 +35,7 @@ class TitanPDF_Button_Widget extends \Elementor\Widget_Base {
 	 * @return string Widget title.
 	 */
     public function get_title() {
-        return esc_html__('TitanPDF Button');
+        return esc_html__('TitanPDF - Button', 'yourtextdomain');
     }
 
     /**
@@ -282,7 +282,7 @@ class TitanPDF_Button_Widget extends \Elementor\Widget_Base {
                             'isLinked' => true,
                         ],
                         'selectors' => [
-                            '{{WRAPPER}} .titanpdf-widget-btn' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                            '{{WRAPPER}} .titanpdf-widget-btn' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
                         ],
                     ]
                 );
@@ -466,7 +466,7 @@ class TitanPDF_Button_Widget extends \Elementor\Widget_Base {
                             'isLinked' => true,
                         ],
                         'selectors' => [
-                            '{{WRAPPER}} .titanpdf-widget-btn' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                            '{{WRAPPER}} .titanpdf-widget-btn:hover' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
                         ],
                     ]
                 );
@@ -498,7 +498,7 @@ class TitanPDF_Button_Widget extends \Elementor\Widget_Base {
                             'isLinked' => true,
                         ],
                         'selectors' => [
-                            '{{WRAPPER}} .titanpdf-widget-btn' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                            '{{WRAPPER}} .titanpdf-widget-btn:hover' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
                         ],
                     ]
                 );
@@ -516,7 +516,7 @@ class TitanPDF_Button_Widget extends \Elementor\Widget_Base {
                         'label' => esc_html__( 'Text Color', 'yourtextdomain' ),
                         'type' => \Elementor\Controls_Manager::COLOR,
                         'selectors' => [
-                            '{{WRAPPER}} .titanpdf-widget-btn' => 'color: {{VALUE}}',
+                            '{{WRAPPER}} .titanpdf-widget-btn:hover' => 'color: {{VALUE}}',
                         ],
                     ]
                 );
@@ -525,7 +525,7 @@ class TitanPDF_Button_Widget extends \Elementor\Widget_Base {
                     \Elementor\Group_Control_Typography::get_type(),
                     [
                         'name' => 'content_typography_hover',
-                        'selector' => '{{WRAPPER}} .titanpdf-widget-btn',
+                        'selector' => '{{WRAPPER}} .titanpdf-widget-btn:hover',
                     ]
                 );
 
@@ -534,7 +534,7 @@ class TitanPDF_Button_Widget extends \Elementor\Widget_Base {
                     [
                         'name' => 'background_hover',
                         'types' => [ 'classic', 'gradient' ],
-                        'selector' => '{{WRAPPER}} .titanpdf-widget-btn',
+                        'selector' => '{{WRAPPER}} .titanpdf-widget-btn:hover',
                     ]
                 );
 
@@ -549,7 +549,7 @@ class TitanPDF_Button_Widget extends \Elementor\Widget_Base {
                     \Elementor\Group_Control_Box_Shadow::get_type(),
                     [
                         'name' => 'box_shadow_hover',
-                        'selector' => '{{WRAPPER}} .titanpdf-widget-btn',
+                        'selector' => '{{WRAPPER}} .titanpdf-widget-btn:hover',
                     ]
                 );
 
@@ -557,7 +557,7 @@ class TitanPDF_Button_Widget extends \Elementor\Widget_Base {
                     \Elementor\Group_Control_Text_Shadow::get_type(),
                     [
                         'name' => 'text_shadow_hover',
-                        'selector' => '{{WRAPPER}} .titanpdf-widget-btn',
+                        'selector' => '{{WRAPPER}} .titanpdf-widget-btn:hover',
                     ]
                 );
 
@@ -572,7 +572,7 @@ class TitanPDF_Button_Widget extends \Elementor\Widget_Base {
                     \Elementor\Group_Control_Border::get_type(),
                     [
                         'name' => 'border_hover',
-                        'selector' => '{{WRAPPER}} .titanpdf-widget-btn',
+                        'selector' => '{{WRAPPER}} .titanpdf-widget-btn:hover',
                     ]
                 );
 
@@ -603,7 +603,7 @@ class TitanPDF_Button_Widget extends \Elementor\Widget_Base {
                             'isLinked' => true,
                         ],
                         'selectors' => [
-                            '{{WRAPPER}} .titanpdf-widget-btn' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                            '{{WRAPPER}} .titanpdf-widget-btn:hover' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
                         ],
                     ]
                 );
@@ -662,7 +662,6 @@ class TitanPDF_Button_Widget extends \Elementor\Widget_Base {
     protected function content_template() {
         ?>
             <button class="titanpdf-widget-btn">
-                <# if (
                 {{{ settings.button_text }}}
             </button>
         <?php
