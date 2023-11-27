@@ -35,7 +35,7 @@ class TitanPDF_Button_Widget extends \Elementor\Widget_Base {
 	 * @return string Widget title.
 	 */
     public function get_title() {
-        return esc_html__('TitanPDF - Button', 'yourtextdomain');
+        return esc_html__('TitanPDF - Button', 'your-text-domain');
     }
 
     /**
@@ -117,7 +117,7 @@ class TitanPDF_Button_Widget extends \Elementor\Widget_Base {
 		$this->start_controls_section(
             'content_section',
             [
-                'label' => esc_html__( 'Button', 'yourtextdomain' ),
+                'label' => esc_html__( 'Button', 'your-text-domain' ),
                 'tab' => \Elementor\Controls_Manager::TAB_CONTENT,
             ]
         );
@@ -126,9 +126,9 @@ class TitanPDF_Button_Widget extends \Elementor\Widget_Base {
         $this->add_control(
             'button_text',
             [
-                'label' => esc_html__( 'Text', 'yourtextdomain' ),
+                'label' => esc_html__( 'Text', 'your-text-domain' ),
                 'type' => \Elementor\Controls_Manager::TEXT,
-                'default' => esc_html__( 'Generate PDF', 'yourtextdomain' ), // Default text
+                'default' => esc_html__( 'Generate PDF', 'your-text-domain' ), // Default text
             ]
         );
 
@@ -136,23 +136,23 @@ class TitanPDF_Button_Widget extends \Elementor\Widget_Base {
         $this->add_control(
 			'text_align',
 			[
-				'label' => esc_html__( 'Alignment', 'yourtextdomain' ),
+				'label' => esc_html__( 'Text Alignment', 'your-text-domain' ),
 				'type' => \Elementor\Controls_Manager::CHOOSE,
 				'options' => [
 					'left' => [
-						'title' => esc_html__( 'Left', 'yourtextdomain' ),
+						'title' => esc_html__( 'Left', 'your-text-domain' ),
 						'icon' => 'eicon-text-align-left',
 					],
 					'center' => [
-						'title' => esc_html__( 'Center', 'yourtextdomain' ),
+						'title' => esc_html__( 'Center', 'your-text-domain' ),
 						'icon' => 'eicon-text-align-center',
 					],
 					'right' => [
-						'title' => esc_html__( 'Right', 'yourtextdomain' ),
+						'title' => esc_html__( 'Right', 'your-text-domain' ),
 						'icon' => 'eicon-text-align-right',
 					],
 				],
-				'default' => 'center',
+				'default' => 'left',
 				'toggle' => true,
 				'selectors' => [
 					'{{WRAPPER}} .titanpdf-widget-btn' => 'text-align: {{VALUE}};',
@@ -164,12 +164,12 @@ class TitanPDF_Button_Widget extends \Elementor\Widget_Base {
         $this->add_control(
             'dimension',
             [
-                'label' => esc_html__( 'Dimension', 'yourtextdomain' ),
+                'label' => esc_html__( 'Dimension', 'your-text-domain' ),
                 'type' => \Elementor\Controls_Manager::SELECT,
                 'options' => [
-                    'small' => esc_html__( 'Small', 'yourtextdomain' ),
-                    'medium' => esc_html__( 'Medium', 'yourtextdomain' ),
-                    'large' => esc_html__( 'Large', 'yourtextdomain' ),
+                    'small' => esc_html__( 'Small', 'your-text-domain' ),
+                    'medium' => esc_html__( 'Medium', 'your-text-domain' ),
+                    'large' => esc_html__( 'Large', 'your-text-domain' ),
                 ],
                 'default' => 'small', // Default dimension
             ]
@@ -179,7 +179,7 @@ class TitanPDF_Button_Widget extends \Elementor\Widget_Base {
         $this->add_control(
             'button_icon',
             [
-                'label' => esc_html__( 'Icon', 'yourtextdomain' ),
+                'label' => esc_html__( 'Icon', 'your-text-domain' ),
                 'type' => \Elementor\Controls_Manager::ICONS,
                 'description' => 'test desc',
                 'default' => [
@@ -193,11 +193,11 @@ class TitanPDF_Button_Widget extends \Elementor\Widget_Base {
         $this->add_control(
             'icon_position',
             [
-                'label' => esc_html__( 'Icon Position', 'yourtextdomain' ),
+                'label' => esc_html__( 'Icon Position', 'your-text-domain' ),
                 'type' => \Elementor\Controls_Manager::SELECT,
                 'options' => [
-                    'left' => esc_html__( 'Left', 'yourtextdomain' ),
-                    'right' => esc_html__( 'Right', 'yourtextdomain' ),
+                    'left' => esc_html__( 'Left', 'your-text-domain' ),
+                    'right' => esc_html__( 'Right', 'your-text-domain' ),
                 ],
                 'default' => 'left', // Default position
             ]
@@ -207,7 +207,7 @@ class TitanPDF_Button_Widget extends \Elementor\Widget_Base {
         $this->add_control(
             'icon_spacing',
             [
-                'label' => esc_html__( 'Icon Spacing', 'yourtextdomain' ),
+                'label' => esc_html__( 'Icon Spacing', 'your-text-domain' ),
                 'type' => \Elementor\Controls_Manager::SLIDER,
                 'default' => [
                     'size' => 10, // Default spacing size
@@ -240,7 +240,7 @@ class TitanPDF_Button_Widget extends \Elementor\Widget_Base {
         $this->start_controls_section(
             'styling_section',
             [
-                'label' => esc_html__( 'Button', 'yourtextdomain' ),
+                'label' => esc_html__( 'Button', 'your-text-domain' ),
                 'tab' => \Elementor\Controls_Manager::TAB_STYLE,
             ]
         );
@@ -251,14 +251,14 @@ class TitanPDF_Button_Widget extends \Elementor\Widget_Base {
 		    $this->start_controls_tab(
 		    	'style_normal_tab',
 		    	[
-		    		'label' => esc_html__( 'Normal', 'yourtextdomain' ),
+		    		'label' => esc_html__( 'Normal', 'your-text-domain' ),
 		    	]
 		    );
 
                 $this->add_control(
                     'margin',
                     [
-                        'label' => esc_html__( 'Margin', 'yourtextdomain' ),
+                        'label' => esc_html__( 'Margin', 'your-text-domain' ),
                         'type' => \Elementor\Controls_Manager::DIMENSIONS,
                         'size_units' => [ 'px', '%', 'em', 'rem', 'custom' ],
                         'range' => [
@@ -290,7 +290,7 @@ class TitanPDF_Button_Widget extends \Elementor\Widget_Base {
                 $this->add_control(
                     'padding',
                     [
-                        'label' => esc_html__( 'Padding', 'yourtextdomain' ),
+                        'label' => esc_html__( 'Padding', 'your-text-domain' ),
                         'type' => \Elementor\Controls_Manager::DIMENSIONS,
                         'size_units' => [ 'px', '%', 'em', 'rem', 'custom' ],
                         'range' => [
@@ -329,7 +329,7 @@ class TitanPDF_Button_Widget extends \Elementor\Widget_Base {
                 $this->add_control(
                     'text_color',
                     [
-                        'label' => esc_html__( 'Text Color', 'yourtextdomain' ),
+                        'label' => esc_html__( 'Text Color', 'your-text-domain' ),
                         'type' => \Elementor\Controls_Manager::COLOR,
                         'selectors' => [
                             '{{WRAPPER}} .titanpdf-widget-btn' => 'color: {{VALUE}}',
@@ -395,7 +395,7 @@ class TitanPDF_Button_Widget extends \Elementor\Widget_Base {
                 $this->add_control(
                     'border_radius',
                     [
-                        'label' => esc_html__( 'Border radius', 'yourtextdomain' ),
+                        'label' => esc_html__( 'Border radius', 'your-text-domain' ),
                         'type' => \Elementor\Controls_Manager::DIMENSIONS,
                         'size_units' => [ 'px', '%', 'em', 'rem', 'custom' ],
                         'range' => [
@@ -436,13 +436,13 @@ class TitanPDF_Button_Widget extends \Elementor\Widget_Base {
 		    $this->start_controls_tab(
 		    	'style_hover_tab',
 		    	[
-		    		'label' => esc_html__( 'Hover', 'yourtextdomain' ),
+		    		'label' => esc_html__( 'Hover', 'your-text-domain' ),
 		    	]
 		    );
                 $this->add_control(
                     'margin_hover',
                     [
-                        'label' => esc_html__( 'Margin', 'yourtextdomain' ),
+                        'label' => esc_html__( 'Margin', 'your-text-domain' ),
                         'type' => \Elementor\Controls_Manager::DIMENSIONS,
                         'size_units' => [ 'px', '%', 'em', 'rem', 'custom' ],
                         'range' => [
@@ -474,7 +474,7 @@ class TitanPDF_Button_Widget extends \Elementor\Widget_Base {
                 $this->add_control(
                     'padding_hover',
                     [
-                        'label' => esc_html__( 'Padding', 'yourtextdomain' ),
+                        'label' => esc_html__( 'Padding', 'your-text-domain' ),
                         'type' => \Elementor\Controls_Manager::DIMENSIONS,
                         'size_units' => [ 'px', '%', 'em', 'rem', 'custom' ],
                         'range' => [
@@ -513,7 +513,7 @@ class TitanPDF_Button_Widget extends \Elementor\Widget_Base {
                 $this->add_control(
                     'text_color_hover',
                     [
-                        'label' => esc_html__( 'Text Color', 'yourtextdomain' ),
+                        'label' => esc_html__( 'Text Color', 'your-text-domain' ),
                         'type' => \Elementor\Controls_Manager::COLOR,
                         'selectors' => [
                             '{{WRAPPER}} .titanpdf-widget-btn:hover' => 'color: {{VALUE}}',
@@ -579,7 +579,7 @@ class TitanPDF_Button_Widget extends \Elementor\Widget_Base {
                 $this->add_control(
                     'border_radius_hover',
                     [
-                        'label' => esc_html__( 'Border radius', 'yourtextdomain' ),
+                        'label' => esc_html__( 'Border radius', 'your-text-domain' ),
                         'type' => \Elementor\Controls_Manager::DIMENSIONS,
                         'size_units' => [ 'px', '%', 'em', 'rem', 'custom' ],
                         'range' => [

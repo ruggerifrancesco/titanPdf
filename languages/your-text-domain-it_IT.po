@@ -30,3 +30,54 @@ msgstr "Anteprima PDF"
 
 msgid "Reset template"
 msgstr "Ripristina il template"
+
+msgid "TitanPDF - Button"
+msgstr "TitanPDF - Pulsante"
+
+msgid "Button"
+msgstr "Pulsante"
+
+msgid "Text"
+msgstr "Testo"
+
+msgid "Alignment"
+msgstr "Allineamento"
+
+msgid "Text alignment"
+msgstr "Allineamento testo"
+
+msgid "Dimension"
+msgstr "Dimensione"
+
+msgid "Icon"
+msgstr "Icona"
+
+msgid "Icon position"
+msgstr "Posizione icona"
+
+msgid "Left"
+msgstr "Sinistra"
+
+msgid "Right"
+msgstr "Destra"
+
+msgid "Icon spacing"
+msgstr "Spaziatura icona"
+
+msgid "Normal"
+msgstr "Normale"
+
+msgid "Hover"
+msgstr "Hover"
+
+msgid "Margin"
+msgstr "Margine"
+
+msgid "Padding"
+msgstr "Rientro"
+
+msgid "Text color"
+msgstr "Colore testo"
+
+msgid "Border radius"
+msgstr "Raggio del bordo"
