@@ -152,7 +152,6 @@ class TitanPDF_Button_Widget extends \Elementor\Widget_Base {
 						'icon' => 'eicon-text-align-right',
 					],
 				],
-				'default' => 'left',
 				'toggle' => true,
 				'selectors' => [
 					'{{WRAPPER}} .titanpdf-widget-btn' => 'text-align: {{VALUE}};',
@@ -195,6 +194,7 @@ class TitanPDF_Button_Widget extends \Elementor\Widget_Base {
             [
                 'label' => esc_html__( 'Icon Position', 'your-text-domain' ),
                 'type' => \Elementor\Controls_Manager::SELECT,
+                'description' => 'Pixel only supported.',
                 'options' => [
                     'left' => esc_html__( 'Left', 'your-text-domain' ),
                     'right' => esc_html__( 'Right', 'your-text-domain' ),
@@ -631,7 +631,7 @@ class TitanPDF_Button_Widget extends \Elementor\Widget_Base {
 	 */
     protected function render() {
         $settings = $this->get_settings_for_display();
-        $text = $settings['button_text'];
+        $text = !empty($settings['button_text']) ? $settings['button_text'] : esc_html__( 'Generate PDF', 'your-text-domain' );
         $alignment = $settings['text_align'];
         $dimension = $settings['dimension'];
         $icon = $settings['button_icon']['value'];
@@ -639,13 +639,21 @@ class TitanPDF_Button_Widget extends \Elementor\Widget_Base {
         $icon_spacing = $settings['icon_spacing']['size'];
 
         ?>
-            <button class="titanpdf-widget-btn" style="text-align: <?php echo esc_attr($alignment); ?>;">
-                <?php if ($icon_position === 'left') : ?>
-                    <i class="<?php echo esc_attr($icon); ?>" style="margin-right: <?php echo esc_attr($icon_spacing); ?>px;"></i>
-                <?php endif; ?>
-                <?php echo esc_html($text); ?>
-                <?php if ($icon_position === 'right') : ?>
-                    <i class="<?php echo esc_attr($icon); ?>" style="margin-left: <?php echo esc_attr($icon_spacing); ?>px;"></i>
+            <button class="titanpdf-widget-btn">
+                <?php if (!empty($icon)) : ?>
+
+                    <?php if ($icon_position === 'left') : ?>
+                        <i class="<?php echo esc_attr($icon); ?>" style="margin-right: <?php echo esc_attr($icon_spacing); ?>px;"></i>
+                    <?php endif; ?>
+
+                    <?php echo esc_html($text); ?>
+
+                    <?php if ($icon_position === 'right') : ?>
+                        <i class="<?php echo esc_attr($icon); ?>" style="margin-left: <?php echo esc_attr($icon_spacing); ?>px;"></i>
+                    <?php endif; ?>
+
+                <?php else : ?>
+                    <?php echo esc_html($text); ?>
                 <?php endif; ?>
             </button>
         <?php
@@ -661,8 +669,24 @@ class TitanPDF_Button_Widget extends \Elementor\Widget_Base {
 	 */
     protected function content_template() {
         ?>
-            <button class="titanpdf-widget-btn">
-                {{{ settings.button_text }}}
+            <# var text = settings.button_text; #>
+
+                <button class="titanpdf-widget-btn">
+                    <# if ( ! !settings.button_icon.value ) { #>
+                    
+                        <# if (settings.icon_position === 'left') { #>
+                        <i class="{{ settings.button_icon.value }}" style="margin-right: {{ settings.icon_spacing.size }}px;"></i>
+                        <# } #>
+
+                        {{{ text }}}
+
+                        <# if (settings.icon_position === 'right') { #>
+                        <i class="{{ settings.button_icon.value }}" style="margin-left: {{ settings.icon_spacing.size }}px;"></i>
+                        <# } #>
+
+                    <# } else { #>
+                        {{{ text }}}
+                    <# } #>
             </button>
         <?php
     }
