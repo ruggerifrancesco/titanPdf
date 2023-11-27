@@ -23,6 +23,10 @@ jQuery(document).ready(function($) {
                 // Open the PDF in a new window or tab
                 console.log('AJAX Success:', response);
                 window.open(response, '_blank');
+
+                // Display an admin notice
+                var notice = $(`<div class="notice notice-success is-dismissible"><p>PDF ${post_title} opened correctly!</p></div>`);
+                $('#plugin-alerts').html(notice);
             },
             error: function(error) {
                 console.error('AJAX Error:', error);
